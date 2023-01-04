@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
     for y in range(start_year, end_year+1):
         date_ext = Date_extract(y)
+        df.to_csv(str('./nara_' + str(y) + '.csv'), encoding='utf-8')
         for k, v in date_ext.items():
             start_tmp = [k, v[0]]
             end_tmp = [k, v[1]]
@@ -108,7 +109,7 @@ if __name__ == "__main__":
                     break
                 df = pd.concat([df, df_tmp])
                 page_no += 1
-                df.to_csv(str('./nara_' + str(y) + '.csv'), mode='a', encoding='utf-8')
+                df.to_csv(str('./nara_' + str(y) + '.csv'), header=False, mode='a', encoding='utf-8')
             print(str(y) + ' ' + start_tmp[0] + ' / 12 Done!')
         print(str(y) + ' Done!')
 
