@@ -5,6 +5,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
+from tqdm import tqdm
 
 def No_space(text):
     text1 = re.sub('&nbsp; | &nbsp;| \n|\t|\r|\n', '', text)
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     except:
         print("입력 파일이 존재하지 않습니다.")
 
-    for idx, c in codes.iterrows():
+    for idx, c in tqdm(codes.iterrows(), total=len(codes)):
         bid_code, seq = c[3].split('-')
         qs[0] = ('bidno', bid_code)
         qs[1] = ('bidseq', seq)
