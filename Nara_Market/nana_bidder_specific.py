@@ -1,17 +1,10 @@
-from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.keys import Keys
 import re
-from urllib.parse import urljoin, ParseResult, parse_qs, urlparse, parse_qsl, urlencode, urlunparse
+from urllib.parse import ParseResult, urlencode, urlunparse
 from urllib import parse
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
 import time
-from datetime import datetime, timedelta
-
 
 def No_space(text):
     text1 = re.sub('&nbsp; | &nbsp;| \n|\t|\r|\n', '', text)
