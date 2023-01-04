@@ -57,6 +57,7 @@ if __name__ == '__main__':
     # 메인 스크립트
     df = pd.DataFrame(columns = ['번호', '공고명', '순위', '사업자등록번호', '업체명',
                                  '대표자명', '입찰금액(원)', '투찰률(%)', '추첨번호', '입찰일시', '비고'])
+    df.to_csv(str('./' + 'nara_bidder_specific' + '.csv'), encoding='utf-8')
 
     filename = input('파일명을 입력해주세요. (예. nara_2022.csv) : ')
 
@@ -66,15 +67,16 @@ if __name__ == '__main__':
         print("입력 파일이 존재하지 않습니다.")
 
     for idx, c in tqdm(codes.iterrows(), total=len(codes)):
-        bid_code, seq = c[3].split('-')
-        qs[0] = ('bidno', bid_code)
-        qs[1] = ('bidseq', seq)
-        project = c[4]
-        query=urlencode(qs, quote_via=parse.quote)
-        parts = ParseResult(scheme, netloc, path, params, query, fragment)
-        url = urlunparse(parts)
-        df = Scrap_data(url, bid_code, seq, project)
-        df.to_csv(str('./' + 'nara_bidder_specific' + '.csv'), mode='a', encoding='utf-8')
-        df = pd.DataFrame(columns = ['번호', '공고명', '순위', '사업자등록번호', '업체명',
-                                     '대표자명', '입찰금액(원)', '투찰률(%)', '추첨번호', '입찰일시', '비고'])
+        if c[3].count('-') == 1:
+            bid_code, seq = c[3].split('-')
+            qs[0] = ('bidno', bid_code)
+            qs[1] = ('bidseq', seq)
+            project = c[4]
+            query=urlencode(qs, quote_via=parse.quote)
+            parts = ParseResult(scheme, netloc, path, params, query, fragment)
+            url = urlunparse(parts)
+            df = Scrap_data(url, bid_code, seq, project)
+            df.to_csv(str('./' + 'nara_bidder_specific' + '.csv'), header=False, mode='a', encoding='utf-8')
+            df = pd.DataFrame(columns = ['번호', '공고명', '순위', '사업자등록번호', '업체명',
+                                         '대표자명', '입찰금액(원)', '투찰률(%)', '추첨번호', '입찰일시', '비고'])
     print('All Done!')
